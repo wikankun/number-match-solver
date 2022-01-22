@@ -1,3 +1,5 @@
+import copy
+
 class Board:
     def __init__(self, rows):
         self.rows = rows
@@ -5,12 +7,17 @@ class Board:
     def get_row(self, row_idx):
         return self.rows[row_idx]
 
-    def is_row_complete(self, row_idx):
+    def is_row_complete(self, p0):
         for i in range(9):
-            if self.rows[row_idx][i] != 0:
+            if self.rows[p0[0]][i] != 0:
                 return False
-        self.rows.pop(row_idx)
+        self.rows.pop(p0[0])
         return True
+    
+    def is_complete(self):
+        if self.rows == []:
+            return True
+        return False
 
     def get_diagonal_pos(self, p0, d=1):
         if self.rows[p0[0]][p0[1]] == 0:
@@ -61,30 +68,41 @@ class Board:
         do = self.get_down_pos(p0)
         ne = self.get_next_pos(p0)
 
-        res = {}
+        res = []
         if dir:
             if self.match(p0, dir):
-                res['diagonal_right'] = dir
+                res.append(dir)
+                # res['diagonal_right'] = dir
         if dil:
             if self.match(p0, dil):
-                res['diagonal_left'] = dil
+                res.append(dil)
+                # res['diagonal_left'] = dil
         if ri:
             if self.match(p0, ri):
-                res['right'] = ri
+                res.append(ri)
+                # res['right'] = ri
         if do:
             if self.match(p0, do):
-                res['down'] = do
+                res.append(do)
+                # res['down'] = do
         if not ri and ne:
             if self.match(p0, ne):
-                res['next'] = ne
+                res.append(ne)
+                # res['next'] = ne
 
         return res
 
     def match(self, p0, p1):
         if self.rows[p0[0]][p0[1]] == self.rows[p1[0]][p1[1]]:
-            self.rows[p0[0]][p0[1]], self.rows[p1[0]][p1[1]] = 0, 0
+            # self.rows[p0[0]][p0[1]], self.rows[p1[0]][p1[1]] = 0, 0
             return True
         if self.rows[p0[0]][p0[1]] + self.rows[p1[0]][p1[1]] == 10:
-            self.rows[p0[0]][p0[1]], self.rows[p1[0]][p1[1]] = 0, 0
+            # self.rows[p0[0]][p0[1]], self.rows[p1[0]][p1[1]] = 0, 0
             return True
         return False
+    
+    def mark_as_match(self, p0, p1):
+        self.rows[p0[0]][p0[1]], self.rows[p1[0]][p1[1]] = 0, 0
+
+    def clone(self):
+        return copy.deepcopy(self)
