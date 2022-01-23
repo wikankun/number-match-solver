@@ -8,13 +8,16 @@ class Board:
         return self.rows[row_idx]
 
     def is_row_complete(self, idx):
-        for i in range(9):
-            if self.rows[idx][i] != 0:
-                return False
-        self.rows.pop(idx)
-        return True
+        if self.rows[idx].count(0) == len(self.rows[idx]):
+            self.rows.pop(idx)
+            return True
+        return False
     
     def is_complete(self):
+        i = len(self.rows) - 1
+        while i >= 0:
+            self.is_row_complete(i)
+            i -= 1
         if self.rows == []:
             return True
         return False
@@ -72,32 +75,25 @@ class Board:
         if dir:
             if self.match(p0, dir):
                 res.append(dir)
-                # res['diagonal_right'] = dir
         if dil:
             if self.match(p0, dil):
                 res.append(dil)
-                # res['diagonal_left'] = dil
         if ri:
             if self.match(p0, ri):
                 res.append(ri)
-                # res['right'] = ri
         if do:
             if self.match(p0, do):
                 res.append(do)
-                # res['down'] = do
         if not ri and ne:
             if self.match(p0, ne):
                 res.append(ne)
-                # res['next'] = ne
 
         return res
 
     def match(self, p0, p1):
         if self.rows[p0[0]][p0[1]] == self.rows[p1[0]][p1[1]]:
-            # self.rows[p0[0]][p0[1]], self.rows[p1[0]][p1[1]] = 0, 0
             return True
         if self.rows[p0[0]][p0[1]] + self.rows[p1[0]][p1[1]] == 10:
-            # self.rows[p0[0]][p0[1]], self.rows[p1[0]][p1[1]] = 0, 0
             return True
         return False
     

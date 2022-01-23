@@ -1,7 +1,4 @@
-from .traversal import Traversal
-
-
-class BFS(Traversal):
+class BFS():
     def __init__(self, start_node):
         self.visited = set()
         self.visited.add(start_node.get_hash())
@@ -22,5 +19,5 @@ class BFS(Traversal):
             neighborHash = neighbor.get_hash()
             if neighborHash not in self.visited:
                 self.bfs_queue.append(neighbor)
-                print(neighborHash)
+                # print(neighborHash)
                 self.visited.add(neighborHash)
