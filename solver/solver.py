@@ -21,13 +21,11 @@ class GraphNode(Node):
             for j in range(len(self.board.rows[0])):
                 p0 = (i, j)
                 for p1 in self.board.find_all_possible_matches(p0):
-                    if self.board.is_row_complete(p1):
-                        continue
 
                     new_board = self.board.clone()
                     new_board.mark_as_match(p0, p1)
                     neighbor.append(GraphNode(new_board, (p0, p1), self))
-            return neighbor
+        return neighbor
 
     def get_hash(self):
         rows = self.board.rows

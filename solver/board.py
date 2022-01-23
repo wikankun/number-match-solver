@@ -7,11 +7,11 @@ class Board:
     def get_row(self, row_idx):
         return self.rows[row_idx]
 
-    def is_row_complete(self, p0):
+    def is_row_complete(self, idx):
         for i in range(9):
-            if self.rows[p0[0]][i] != 0:
+            if self.rows[idx][i] != 0:
                 return False
-        self.rows.pop(p0[0])
+        self.rows.pop(idx)
         return True
     
     def is_complete(self):
