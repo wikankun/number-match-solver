@@ -49,6 +49,19 @@ def solve(board):
             }
         traversal.iterate()
 
+    if current_node.get_moves_to_node() == [] and current_node.board.rows != []:
+        temp_board = current_node.board.clone()
+        temp_rows = []
+        for row in temp_board.rows:
+            temp_row = []
+            for i in row:
+                if i != 0:
+                    temp_row.append(i)
+            temp_rows.append(temp_row)
+        temp_board.rows.extend(temp_rows)
+
+        return solve(temp_board)
+
     return {
         "isSolvable": False,
         "moves": current_node.get_moves_to_node(),
