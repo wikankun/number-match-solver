@@ -1,4 +1,5 @@
-from .bfs import BFS
+from .traversal.bfs import BFS
+from .traversal.dfs import DFS
 
 
 class GraphNode():
@@ -30,14 +31,14 @@ class GraphNode():
         if self.prev_node is not None:
             moves.extend(self.prev_node.get_moves_to_node())
         if self.prev_move is not None:
-            moves.append([self.prev_move])
+            moves.append(self.prev_move)
         return moves
 
 
 def solve(board):
     startNode = GraphNode(board, None, None)
 
-    traversal = BFS(startNode)
+    traversal = DFS(startNode)
     while not traversal.is_done():
         current_node = traversal.cur_node()
         is_solved = current_node.board.is_complete()
@@ -48,19 +49,6 @@ def solve(board):
                 "board": current_node.board.rows
             }
         traversal.iterate()
-
-    if current_node.get_moves_to_node() == [] and current_node.board.rows != []:
-        temp_board = current_node.board.clone()
-        temp_rows = []
-        for row in temp_board.rows:
-            temp_row = []
-            for i in row:
-                if i != 0:
-                    temp_row.append(i)
-            temp_rows.append(temp_row)
-        temp_board.rows.extend(temp_rows)
-
-        return solve(temp_board)
 
     return {
         "isSolvable": False,
